@@ -1,6 +1,7 @@
 # Rasa Denerator
 
 [![PyPI version](https://badge.fury.io/py/pypi.svg)](https://badge.fury.io/py/pypi)
+[![Python 3.7](https://img.shields.io/badge/python-3.6-blue.svg)](https://www.python.org/downloads/release/python-360/)
 
 A simple way of generating a domain.yml file for Rasa
 
