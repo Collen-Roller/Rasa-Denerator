@@ -1,5 +1,7 @@
 # Rasa Denerator
 
+[![PyPI version](https://badge.fury.io/py/pypi.svg)](https://badge.fury.io/py/pypi)
+
 A simple way of generating a domain.yml file for Rasa
 
 **Works with legacy versions of rasa || rasa 1.x!**
