@@ -12,7 +12,7 @@ Developed with Python 3.7.x
 $ pip install rasa_denerator
 ```
 
-After installation, the component can be used via command line or with a script, we provide scenarios for both.
+After installation, the component can be used via command line or within a python script, we provide scenarios for both.
 
 ## Usage
 
