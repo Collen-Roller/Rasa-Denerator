@@ -14,7 +14,7 @@ setup(
     name='rasa_denerator',
     install_requires=install_requires,
     packages=find_packages(),
-    version='1.0.0',
+    version='1.0.1',
     description='A simple way of generating a domain.yml file for Rasa',
     long_description=long_description,
     long_description_content_type="text/markdown",

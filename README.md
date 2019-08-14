@@ -1,7 +1,5 @@
 # Rasa Denerator
 
-[![Python 3.7](https://img.shields.io/badge/python-3.7-blue.svg)](https://www.python.org/downloads/release/python-360/)
-
 A simple way of generating a domain.yml file for Rasa
 
 **Works with legacy versions of rasa || rasa 1.x!**
@@ -48,10 +46,10 @@ The script will output to the std.out unless an output file is specific.
 
 Queries can get quite complex. For example, you could specify the following:
 ```bash
-$ python -m rasa-denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions 
-         -f templates Rasa-Denerator/notebooks/denerator_tests/data 
-         -f slots Rasa-Denerator/notebooks/denerator_tests/data/
-         -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md
+$ python3 -m rasa_denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions \ 
+         -f templates Rasa-Denerator/notebooks/denerator_tests/data \
+         -f slots Rasa-Denerator/notebooks/denerator_tests/data/ \
+         -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md \
          -o domain.yml
  ```
 
@@ -59,19 +57,19 @@ $ python -m rasa-denerator -actions Rasa-Denerator/notebooks/denerator_tests/act
 
 If you'd like to use the denerator within a python script, you can do that too!
 ```python
-# Importing the object
 from rasa_denerator import RasaDenerator
 
-args = RasaDenerator.create_argument_parser().parse_args(
-                            "-nlu denerator_tests/data/nlu/nlu.md \
-                            -actions denerator_tests/actions/ \
-                            -f templates denerator_tests/actions/domain \
-                            -f slots denerator_tests/actions/domain".split())
-denerator = RasaDenerator(nlu_file = args.nlu_file, 
-                        actions_dir = args.actions_dir,
-                        tag_files = args.tag_files, 
-                        output = args.output)
+nlu_file = "denerator_tests/data/nlu/nlu.md"
+actions_dir = "denerator_tests/actions/"
+tag_dict = {"templates":"denerator_tests/data/domain", "slots": "denerator_tests/data/domain", "entities":"denerator_tests/data/domain"}
+output_file = "domain.yml"
+
+denerator = RasaDenerator(nlu_file = nlu_file, 
+                        actions_dir = actions_dir,
+                        tag_dict = tag_dict,
+                        output = output_file)
 denerator.generate_domain()
+
 ```
 
 ## Explanation
@@ -150,7 +148,7 @@ Entities and intents will be extracted from the nlu.md training data file. This 
 
 If you want to hand-define entities and intents  thats fine too. Just create a folder or file that contains them and pass it to the script. 
 
-Note: If a nlu training file is specified, it will take precidence over all entities and intents extracted from .yml files.
+Note: If a entities or intents are specified, they will take precidence over entities and intents identified within the nlu training data file.
 
 #### Actions
 Most Rasa users define custom actions. Copying these names from their respective classes and copying them into the domain file is currently tedious. The denerator fixes this my using rasa_sdk to  load the repsective action module created by the user, extract the class names, and automatically add them to the domain file.

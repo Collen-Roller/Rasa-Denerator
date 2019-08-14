@@ -1,0 +1,6 @@
+entities:
+  - identifier
+  - geospatial_filter
+  - attribute_filter
+  - conjunction
+  - info_need_obj

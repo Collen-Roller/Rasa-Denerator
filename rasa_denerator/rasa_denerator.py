@@ -33,49 +33,30 @@ class RasaDenerator:
     def __init__(self,
                  nlu_file: Optional[Text] = None,
                  actions_dir: Optional[Text] = None,
-                 tag_files: Optional[List] = None,
+                 tag_dict: Optional[Dict] = None,
                  output: Optional[Text] = None
                 ) -> None:
         
         self.nlu_file = nlu_file
         self.actions_dir = actions_dir
-        self.tag_dict = {} # Convert List to dict for later use
+        self.tag_dict = tag_dict
         self.output = output
            
-        if tag_files:    
-            for pair in tag_files: 
-                if pair[0] not in VALID_SEARCH_TAGS:
-                    logger.warning("%s is not a valid tag [%s] ignoring" % (pair[0],VALID_SEARCH_TAGS))
-                else:
-                    self.tag_dict[pair[0]] = pair[1] 
-    
-        if self.verify_arguments():
-            logger.debug("Initialized Denerator with | NLU File: %s, Action Dir: %s, Output_File:%s, Tag Dict: %s" % (self.nlu_file, self.actions_dir, self.tag_dict, self.output))
-        else:
-            logger.error("At least one argument must be specified\n")
-            self.create_argument_parser().print_help()
-            sys.exit()
-    
-    def verify_arguments(self) -> bool:
-        if (self.nlu_file or self.tag_dict or self.actions_dir):
-            return True
-        return False
-    
     def generate_domain(self) -> Text:
     
         logger.debug("Generating domain file")
         results = self.get_tagged_entries(self.tag_dict) # Get tagged entities
         
         # if nlu_file is specified, look for intents and entities within the nlu file. 
-        # Keep only the intents / entities that were found within the nlu file
         if self.nlu_file:
             logger.debug("Extracting entities and intents from nlu training data (%s)" % self.nlu_file)
             nlu_data = loading.load_data(self.nlu_file)
             if nlu_data:
-                # Clear intents / entities since NLU data takes precidence
-                results["entities"] = list(nlu_data.entities)
-                results["intents"] = list(nlu_data.intents)
-                
+                if len(results["entities"]) == 0:
+                    results["entities"] = list(nlu_data.entities)
+                if len(results["intents"]) == 0:
+                    results["intents"] = list(nlu_data.intents)
+                    
         # if actions_file is specified, look for registed actions within actions file.
         # Keep only the actions / forms that were found within the NLU file
         if self.actions_dir:
@@ -86,17 +67,14 @@ class RasaDenerator:
          
         logger.debug("Merging identified utterances")
         # If templates exist, append them to the actions
-        if "templates" in results.keys() and len(results["templates"]) > 0 and len(results["templates"][0]) > 0:
-            results["actions"] = results["actions"] + list(results["templates"][0].keys())       
+        if "templates" in results.keys() and len(results["templates"]) > 0:
+            results["actions"] = results["actions"] + list(results["templates"].keys())       
         
         logger.debug("Formatting output")
         # Iterate through output, identify existing tags, and remove keys that dont exist
         for tag in VALID_SEARCH_TAGS:
             if tag in results.keys() and len(results[tag]) > 0:
-                if tag is "templates":
-                    print("Found %s %s" % (len(results[tag][0]), tag))
-                else: 
-                    print("Found %s %s" % (len(results[tag]), tag))
+                print("Found %s %s" % (len(results[tag]), tag))
             else:
                 # remove the keys from the list
                 del results[tag]
@@ -123,6 +101,7 @@ class RasaDenerator:
             yaml.dump(results, stream)
             print("Results saved to %s" % self.output)
         else:    
+            # yaml.dump(results, sys.stdout)
             yaml.dump(results, sys.stdout)
             
             
@@ -150,7 +129,6 @@ class RasaDenerator:
                     if yml and key in yml: 
                         # if templates, dive down another level
                         if len(results[key]) > 0 and "templates" in key:
-                            #from IPython.core.debugger import Tracer; Tracer()()
                             results[key][0].update(yml[key])
                         else:
                             results[key].append(yml[key])
@@ -160,6 +138,15 @@ class RasaDenerator:
                 if yml and key in yml:
                     results[key].append(yml[key])
                     
+                    
+        # Once complete, go through each key
+        for key, value in results.items():
+            # Merge content that exists!
+            if len(results[key]) > 0 and type(results[key][0]) is dict:
+                results[key] = {k: v for d in results[key] for k, v in d.items()}
+            elif len(results[key]) > 0 and type(results[key][0]) is list:
+                results[key] = [item for i in results[key] for item in i]
+
         return results
     
     # Provide the actions directory that will be mounted for production
@@ -186,6 +173,7 @@ class RasaDenerator:
     
     # Create class structure 
     def get_yml(self, key, file) -> Optional[Dict]:
+        
         try:
             loaded_yml = yaml.safe_load(open(file, "r"))
             if loaded_yml and key in loaded_yml:
