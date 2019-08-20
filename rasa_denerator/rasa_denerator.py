@@ -94,7 +94,7 @@ class RasaDenerator:
             output_path = self.output if os.path.isabs(self.output) else os.path.join(os.path.abspath(os.curdir), self.output)
             
             try:
-                stream = open(output_path)
+                stream = open(output_path, "w")
             except IOError:
                 stream = open(Path(output_path), "w") #Create the file!
                 
