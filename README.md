@@ -21,7 +21,7 @@ After installation, the component can be used via command line or within a pytho
 The example below will create a domain file from an actions module, nlu training data and templates
 
 ```bash
-$ rasa-denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions -f templates Rasa-Denerator/notebooks/denerator_tests/data -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md 
+$ rasa_denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions -f templates Rasa-Denerator/notebooks/denerator_tests/data -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md 
  ```
  
  ```bash
