@@ -21,7 +21,7 @@ After installation, the component can be used via command line or within a pytho
 The example below will create a domain file from an actions module, nlu training data and templates
 
 ```bash
-$ python -m rasa-denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions -f templates Rasa-Denerator/notebooks/denerator_tests/data -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md 
+$ rasa-denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions -f templates Rasa-Denerator/notebooks/denerator_tests/data -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md 
  ```
  
  ```bash
@@ -46,7 +46,7 @@ The script will output to the std.out unless an output file is specific.
 
 Queries can get quite complex. For example, you could specify the following:
 ```bash
-$ python3 -m rasa_denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions \ 
+rasa_denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions \ 
          -f templates Rasa-Denerator/notebooks/denerator_tests/data \
          -f slots Rasa-Denerator/notebooks/denerator_tests/data/ \
          -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md \
