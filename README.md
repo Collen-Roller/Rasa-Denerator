@@ -25,7 +25,7 @@ $ rasa_denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions -f te
  ```
  
  ```bash
-usage: rasa_denerator.py [-h] [-o OUTPUT] [-nlu NLU_FILE]
+usage: rasa_denerator [-h] [-o OUTPUT] [-nlu NLU_FILE]
                          [-actions ACTIONS_DIR] [-f TAG_FILES TAG_FILES]
 
 merge disparate Rasa domain files to create or update a aggregated domain.yml
@@ -130,8 +130,8 @@ your_rasa_project
 |       |   templates_2.yml (file containing more templates...)
 │       │   slots_1.yml (file containing slots)
 |       |   slots_2.yml (file containing more slots...)
-│       │   entities.yml (file containing entities, nlu training entities take precedence over this file)
-│       │   intents.yml (file containing intents, nlu training intents take precedence over this file)
+│       │   entities.yml (file containing entities, these entities will take precedence over entities found in the nlu.md)
+│       │   intents.yml (file containing intents, these intent will take precedence over entities found in the nlu.md)
 |       
 └───actions (This is where your action.py lives for rasa_sdk)
     │   __init__.py
@@ -144,13 +144,15 @@ your_rasa_project
 All utterance templates can be defined within a set of yml files. The script will automatically extract these templates and add them to a domain file as templates and registed actions. Additionally, the script will append these to registered utterances to the registered actions within the generated domain file. 
 
 #### Entities and Intents
+
 Entities and intents will be extracted from the nlu.md training data file. This script uses Rasa's training_data functions to load and extract entities and intents. This allows us to accept markdown, json, etc. Entities and intents within the training data are extracted and placed into the output file.
 
-If you want to hand-define entities and intents  thats fine too. Just create a folder or file that contains them and pass it to the script. 
+If you want to hand-define entities and intents, thats fine too. Just create a folder or file that contains them and pass it to the script. 
 
 Note: If a entities or intents are specified, they will take precidence over entities and intents identified within the nlu training data file.
 
 #### Actions
+
 Most Rasa users define custom actions. Copying these names from their respective classes and copying them into the domain file is currently tedious. The denerator fixes this my using rasa_sdk to  load the repsective action module created by the user, extract the class names, and automatically add them to the domain file.
 
 ## Tests
