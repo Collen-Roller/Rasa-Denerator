@@ -4,9 +4,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 install_requires = [
-    "rasa==1.2.1",
+    "rasa~=1.3",
     "typing==3.6.2",
-    "rasa_sdk==1.1.1",
+    "rasa_sdk~=1.3",
     "ruamel.base==1.0.0"
 ]
 
@@ -14,7 +14,7 @@ setup(
     name='rasa_denerator',
     install_requires=install_requires,
     packages=find_packages(),
-    version='1.0.3',
+    version='1.0.4',
     description='A simple way of generating a domain.yml file for Rasa',
     long_description=long_description,
     long_description_content_type="text/markdown",
