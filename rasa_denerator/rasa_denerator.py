@@ -39,6 +39,10 @@ class RasaDenerator:
         
         self.nlu_file = nlu_file
         self.actions_dir = actions_dir
+
+        if type(tag_dict) == list:
+            tag_dict = self.convert_tags(tag_dict)
+        
         self.tag_dict = tag_dict
         self.output = output
            
@@ -113,7 +117,7 @@ class RasaDenerator:
         for tag in VALID_SEARCH_TAGS:  results[tag] = []
 
         # iterate through tag_dict and recursivly look through directories for .yml files with tags.
-        for key,path in tag_dict.items():
+        for key, path in tag_dict.items():
             
             if os.path.isdir(path):  
                 # Recursivly find all .yml files within sub directories
@@ -206,3 +210,15 @@ class RasaDenerator:
                             required=False,
                             help='-f <TAG> <PATH_TO_DIRECTORY_OR_FILE>')  
         return parser
+
+    @staticmethod
+    def convert_tags(tag_list):
+        
+        tag_dict = {}
+        for pair in tag_list: 
+            if pair[0] not in ["forms", "actions", "templates", "slots", "entities", "intents"]:
+                print("%s is not a valid tag [%s] ignoring" % pair[0])
+            else:
+                tag_dict[pair[0]] = pair[1] 
+
+        return tag_dict
