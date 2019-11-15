@@ -149,7 +149,7 @@ Entities and intents will be extracted from the nlu.md training data file. This 
 
 If you want to hand-define entities and intents, thats fine too. Just create a folder or file that contains them and pass it to the script. 
 
-Note: If a entities or intents are specified, they will take precidence over entities and intents identified within the nlu training data file.
+Note: If entities or intents are specified in separate files, they will take precidence over entities and intents identified within the nlu training data file.
 
 #### Actions
 
