@@ -42,7 +42,7 @@ optional arguments:
                         -f <TAG> <PATH_TO_DIRECTORY_OR_FILE>
  ```
 
-The script will output to the std.out unless an output file is specific. 
+The script will output to the stdout unless an output file is specified as an cli option
 
 Queries can get quite complex. For example, you could specify the following:
 ```bash
@@ -52,6 +52,8 @@ rasa_denerator -actions Rasa-Denerator/notebooks/denerator_tests/actions \
          -nlu Rasa-Denerator/notebooks/denerator_tests/data/nlu/nlu.md \
          -o domain.yml
  ```
+ 
+The point is to provide users an robust way of creating and updating a Rasa domain for training agents
 
 ### Python
 
@@ -76,7 +78,7 @@ denerator.generate_domain()
 
 Creating a domain.yml file currently is a tedious process within Rasa.  Take this example below
 
-Here is a sample structure that your rasa project might look like right now.
+Here is a sample structure that your rasa project might look like right now
 
 ```
 your_rasa_project
@@ -96,8 +98,8 @@ your_rasa_project
 Currently the developer must hand create the domain file using multiple assets from other files that already exists within other parts of the application. Here are some points below
  
 1. Entities and intents that are placed within training data files must be copied manually to a domain.yml file prior to training. 
-2. Custom action names must be listed within the domain.yml file. Developers currently need to manually extract these names from their custom action classes everytime they add a new actions prior to retraining
-3. Templates are defined within the domain.yml file. These templates are utterances that can be returned to the user at certain trained points within the dialogue. Once these template utterances are defined, their identifies must be manually copied to the actions section of the domain.yml file.
+2. Custom action names must be listed within the domain.yml file. Developers currently need to manually extract these names from their custom action classes everytime they add a new action prior to retraining.
+3. Templates are defined within the domain.yml file. These templates are utterances that are pre-determined responsed that can be replies to the user at certain trained points within the dialogue. Once these template utterances are defined, their identifiers must be manually copied to the actions section of the domain.yml file.
 
 You might have felt these pain points before...
 
