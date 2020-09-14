@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/rasa-denerator.svg)](https://badge.fury.io/py/rasa-denerator)
+
 # Rasa Denerator
 
 A simple way of generating a domain.yml file for Rasa
