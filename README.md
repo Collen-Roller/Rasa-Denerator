@@ -173,4 +173,4 @@ MIT 2019
 
 ## Questions
 
-Contact me at collen.roller@gmail.com
+Contact me at collen.roller@gmail dot com
